@@ -1,0 +1,10 @@
+﻿Build started 12/10/2012 11:25:16 PM.
+     1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D SOUNDPROPAGATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+     1>Done Building Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" (ClCompile target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.50
