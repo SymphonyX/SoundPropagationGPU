@@ -1,0 +1,57 @@
+﻿Build started 12/11/2012 12:24:56 AM.
+     1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(299,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>InitializeBuildStatus:
+         Creating "x64\Release\SoundPropagation.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       AddCudaCompileDeps:
+       Skipping target "AddCudaCompileDeps" because all output files are up-to-date with respect to the input files.
+       AddCudaCompilePropsDeps:
+         Found "CudaToolkitCustomDir".
+         Found "AdditionalDeps".
+         Found "CompileOut".
+         Found "Include".
+         Found "Keep".
+         Found "KeepDir".
+         Found "NvccCompilation".
+         Found "NvccPath".
+         Found "RequiredIncludes".
+         Found "TargetMachinePlatform".
+         Found "CInterleavedPTX".
+         Found "CodeGeneration".
+         Found "GPUDebugInfo".
+         Found "MaxRegCount".
+         Found "PtxAsOptionV".
+         Found "AdditionalCompilerOptions".
+         Found "Defines".
+         Found "Emulation".
+         Found "HostDebugInfo".
+         Found "FastMath".
+         Found "Optimization".
+         Found "Runtime".
+         Found "RuntimeChecks".
+         Found "TypeInfo".
+         Found "Warning".
+         Found "AdditionalOptions".
+         Found "CommandLineTemplate".
+       CudaBuild:
+       Skipping target "CudaBuild" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SOUNDPROPAGATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\SoundPropagation.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.lib" /MACHINE:X64 /DLL x64\Release\SoundPropagation.cu.obj
+         x64\Release\main.obj
+            Creating library ..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.lib and object ..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.exp
+         Generating code
+         Finished generating code
+         SoundPropagation.vcxproj -> C:\CUDA Projects\SoundPropagation\SoundPropagation\..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.dll
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"..\..\..\Users\Pancho\Desktop\SoundPropagationTest\SoundPropagation.dll;#2" /manifest x64\Release\SoundPropagation.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\SoundPropagation.unsuccessfulbuild".
+         Touching "x64\Release\SoundPropagation.lastbuildstate".
+     1>Done Building Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.02
