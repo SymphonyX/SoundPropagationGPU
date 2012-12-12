@@ -6,6 +6,7 @@
 #define EXPORT __declspec(dllexport)
 
 SoundGridStruct* SoundMap;
+SoundSourceStruct* SoundSources;
 int rows; int columns;
 
 extern "C" EXPORT void createSoundMap(int _rows, int _columns) 
@@ -22,4 +23,10 @@ extern "C" EXPORT void createSoundMap(int _rows, int _columns)
 			SoundMap[i*columns+j] = newSoundGrid;
 		}
 	}
+}
+
+extern "C" EXPORT void flagWall(int x, int z, float reflectionRate)
+{
+	SoundMap[z*columns+x].reflectionRate = reflectionRate;
+	SoundMap[z*columns+x].flagWall = true;
 }
