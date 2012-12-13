@@ -5,6 +5,8 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
+extern "C" void runMainLoopKernel(int columns, int rows);
+
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
 int rows; int columns;
