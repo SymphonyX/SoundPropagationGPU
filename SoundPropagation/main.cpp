@@ -5,7 +5,7 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
-extern "C" void runMainLoopKernel(int columns, int rows);
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick);
 
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
@@ -38,4 +38,9 @@ extern "C" EXPORT void initSoundSource(int x, int z)
 	SoundSource = (SoundSourceStruct*)malloc(sizeof(SoundSourceStruct));
 	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
 	SoundSource = &soundSource; 
+}
+
+extern "C" EXPORT void runMainLoop(int tick)
+{
+	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick);
 }
