@@ -1,4 +1,4 @@
-﻿Build started 12/12/2012 1:04:20 AM.
+﻿Build started 12/12/2012 7:36:58 PM.
      1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\SoundPropagation.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -27,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.66
+Time Elapsed 00:00:00.45
