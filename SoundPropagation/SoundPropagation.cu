@@ -24,6 +24,18 @@ __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soun
 	}
 }
 
+__global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+	for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
+	{
+		SoundPacketStruct* soundPacket;
+		soundPacket->amplitude = 0.0;
+	}
+}
+
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick) 
 {
 	dim3 blocks(1,1);

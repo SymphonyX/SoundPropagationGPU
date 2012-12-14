@@ -17,6 +17,7 @@ struct SoundGridStruct {
 	  absorptionRate = 0.98f; 
 	  reflectionRate = 0.01f; 
 	  flagWall = false;
+	  updated = false;
 
 	  IN = (SoundPacketStruct**)malloc(4*sizeof(SoundPacketStruct*));
 	  OUT = (SoundPacketStruct**)malloc(4*sizeof(SoundPacketStruct*));
@@ -39,6 +40,7 @@ struct SoundGridStruct {
 	float absorptionRate;
 	float reflectionRate;
 	bool flagWall;
+	bool updated;
 	int x;
 	int z;
 };
