@@ -6,6 +6,7 @@ class SoundPacketStruct{
 
 	public:
 	__host__ __device__ SoundPacketStruct(float _amplitude): amplitude(_amplitude), minRange(0.0f), maxRange(1.0f) { }
+	__host__ __device__ SoundPacketStruct(float _amplitude, float _minRange, float _maxRange) : amplitude(_amplitude), minRange(_minRange), maxRange(_maxRange) { }
 	__host__ __device__ SoundPacketStruct() : amplitude(0.0f), minRange(0.0f), maxRange(1.0f) { }
 	float amplitude;
 	float minRange;
