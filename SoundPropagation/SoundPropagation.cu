@@ -1,6 +1,8 @@
-#include "MarshalStructs.h"
+#include "MarshalStructs.cu"
+#include <math.h>
 
 #define NUMBER_OF_DIRECTIONS 4
+
 
 __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soundMap, int rows, int columns, int tick)
 {
@@ -16,7 +18,10 @@ __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soun
 		{
 			for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
 			{
-				SoundPacketStruct soundPacket(frame[index]);
+				SoundPacketStruct soundPacket = SoundPacketStruct(0.0f);
+				soundPacket.amplitude = frame[index].amplitude;
+				soundPacket.minRange = frame[index].minRange;
+				soundPacket.maxRange = frame[index].maxRange;
 				soundGrid->IN[direction] = &soundPacket;
 			}
 		}
@@ -29,10 +34,23 @@ __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 	int x = threadIdx.x + blockIdx.x * blockDim.x;
 	int y = threadIdx.y + blockIdx.y * blockDim.y;
 	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+	soundGrid->updated = false;
 	for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
 	{
-		SoundPacketStruct* soundPacket;
-		soundPacket->amplitude = 0.0;
+		SoundPacketStruct soundPacket = SoundPacketStruct(0.0f);
+		for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
+		{
+			SoundPacketStruct* packetListPtr = soundGrid->IN[direction]; 
+			soundPacket.amplitude += (packetListPtr+i)->amplitude;
+		}
+		soundGrid->sizeOfIn[direction] = 0;
+
+		if (abs(soundPacket.amplitude) > soundGrid->epsilon)
+		{
+			SoundPacketStruct* packetListPtr = soundGrid->IN[direction];
+			*(packetListPtr+soundGrid->sizeOfIn[direction]) = soundPacket;
+		}
+		soundGrid->updated = true;
 	}
 }
 

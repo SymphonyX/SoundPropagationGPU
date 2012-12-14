@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "MarshalStructs.h"
+#include "MarshalStructs.cu"
 
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)

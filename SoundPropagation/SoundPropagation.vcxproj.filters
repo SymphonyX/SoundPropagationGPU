@@ -25,7 +25,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MarshalStructs.h">
+    <ClInclude Include="MarshalStructs.cu">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,9 +1,12 @@
 #ifndef MarshalStructs_H
 #define MarshalStructs_H
+#include <cuda_runtime.h>
 
-struct SoundPacketStruct{
-	SoundPacketStruct(float _amplitude) { amplitude = _amplitude; minRange = 0.0f; maxRange = 1.0f; }
+class SoundPacketStruct{
 
+	public:
+	__host__ __device__ SoundPacketStruct(float _amplitude): amplitude(_amplitude), minRange(0.0f), maxRange(1.0f) { }
+	__host__ __device__ SoundPacketStruct() : amplitude(0.0f), minRange(0.0f), maxRange(1.0f) { }
 	float amplitude;
 	float minRange;
 	float maxRange;
@@ -57,7 +60,7 @@ struct SoundSourceStruct {
 		int len = 10;
 		for (int i = 0; i < 150; ++i) {
 			*(packetList+i) = (SoundPacketStruct*)malloc(sizeof(SoundPacketStruct));
-			SoundPacketStruct soundPacket(i < len ? 10.0f : 0.1f);
+			SoundPacketStruct soundPacket = SoundPacketStruct(i < len ? 10.0f : 0.1f);
 			*(packetList+i) = &soundPacket;
 
 			*(sizesOfPacketList+i) = 1;
