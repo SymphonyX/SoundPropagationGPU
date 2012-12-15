@@ -55,7 +55,7 @@ struct SoundSourceStruct {
 		x =_x; 
 		z = _z; 
 		limitTickCount = 100000;
-		packetList = (SoundPacketStruct**)malloc(4 *sizeof(float*));
+		packetList = (SoundPacketStruct**)malloc(150*sizeof(SoundPacketStruct*));
 		sizesOfPacketList = (int*)malloc(150*sizeof(int));
 
 		int len = 10;

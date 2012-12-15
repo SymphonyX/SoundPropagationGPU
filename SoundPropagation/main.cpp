@@ -44,3 +44,23 @@ extern "C" EXPORT void runMainLoop(int tick)
 {
 	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick);
 }
+
+extern "C" EXPORT float sumInForPosition(int x, int z)
+{
+	float value = 0.0f;
+	SoundGridStruct* soundGrid = &SoundMap[z*columns+x];
+	for (int direction = 0; direction < 4; direction++)
+	{
+		for (int i = 0; soundGrid->sizeOfIn[direction]; i++)
+		{
+			SoundPacketStruct* frame = soundGrid->IN[direction];
+			value += frame[i].amplitude;
+		}
+	}
+	return value;
+}
+
+extern "C" EXPORT SoundSourceStruct CALL returnSoundSource(int x, int z)
+{
+	return SoundSource[0];
+}

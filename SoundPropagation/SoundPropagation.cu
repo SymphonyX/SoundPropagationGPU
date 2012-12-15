@@ -34,6 +34,15 @@ __device__ int counterClockwiseDirection(int direction)
 	else return None;
 }
 
+__device__ SoundGridStruct* neighborAtDirection(SoundGridStruct* soundMap, SoundGridStruct* soundGrid, int direction, int rows, int columns)
+{
+	if (direction == North && soundGrid->z > 0) {return &soundMap[(soundGrid->z-1)*columns+soundGrid->x]; }
+	else if (direction == East && soundGrid->x < columns) {return &soundMap[soundGrid->z*columns+(soundGrid->x+1)]; }
+	else if (direction == West && soundGrid->x > 0) {return &soundMap[soundGrid->z*columns+(soundGrid->x-1)]; }
+	else if (direction == South && soundGrid->z < rows) {return &soundMap[(soundGrid->z+1)*columns+soundGrid->x]; }
+	else return NULL;
+}
+
 //************KERNELS******************//
 
 __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soundMap, int rows, int columns, int tick)
@@ -154,6 +163,36 @@ __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 	}
 }
 
+__global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
+{
+	int x = threadIdx.x + blockIdx.x * blockDim.x;
+	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+	
+	for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
+	{
+		int revDirection = reverseDirection(direction);
+		SoundPacketStruct* frame = soundGrid->OUT[direction];
+		SoundGridStruct* neighbor = neighborAtDirection(soundMap, soundGrid, direction, rows, columns);
+		SoundPacketStruct* neighborFrame = NULL;
+		if (neighbor != NULL)
+		{
+			neighborFrame = neighbor->IN[revDirection];
+		}
+
+		if (neighborFrame != NULL)
+		{
+			neighbor->sizeOfIn[revDirection] = 0;
+			for (int index = 0; index < soundGrid->sizeOfOut[direction]; index++)
+			{
+				SoundPacketStruct packet = SoundPacketStruct(frame[index].amplitude, frame[index].minRange, frame[index].maxRange); 
+				neighborFrame[index] = packet;
+				neighbor->sizeOfIn[revDirection] += 1;
+			}
+		}
+	}
+}
+
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick) 
 {
 	dim3 blocks(1,1);
@@ -171,9 +210,7 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	emitKernel<<<blocks, threads>>> (soundSource_dev, soundMap_dev, rows, columns, tick);
 	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
-	//cudaEmit()
-	//cudaMerge()
-	//cudaScatter()
-	//cudaCollect()
-	//cudaTick()
+	collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
+
+	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
 }
