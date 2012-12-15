@@ -75,4 +75,24 @@ struct SoundSourceStruct {
 	int z;
 };
 
+struct SoundStructToReturn
+{
+	SoundStructToReturn(int _limitTick, int _x, int _z) : x(_x), z(_z), limitTick(_limitTick)
+	{
+		for (int i =0; i < 150; i ++)
+		{
+			for (int j = 0; j < 100; j++)
+			{
+				packetList[i][j] = SoundPacketStruct();
+			}
+			sizeOfPacketList[i] = 0;
+		}
+	}
+	SoundPacketStruct packetList[150][100];
+	int sizeOfPacketList[150];
+	int limitTick;
+	int x;
+	int z;
+};
+
 #endif

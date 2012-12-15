@@ -37,7 +37,7 @@ extern "C" EXPORT void initSoundSource(int x, int z)
 {
 	SoundSource = (SoundSourceStruct*)malloc(sizeof(SoundSourceStruct));
 	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
-	SoundSource = &soundSource; 
+	*SoundSource = soundSource; 
 }
 
 extern "C" EXPORT void runMainLoop(int tick)
@@ -60,7 +60,21 @@ extern "C" EXPORT float sumInForPosition(int x, int z)
 	return value;
 }
 
-extern "C" EXPORT SoundSourceStruct CALL returnSoundSource(int x, int z)
+extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)
 {
-	return SoundSource[0];
+	SoundStructToReturn s(SoundSource->limitTickCount, SoundSource->x, SoundSource->z);
+
+	for (int i = 0; i < 150; i++)
+	{
+		int frameSize = SoundSource->sizesOfPacketList[i];
+		s.sizeOfPacketList[i] = frameSize;
+		for (int j = 0; j < frameSize; j++)
+		{
+			SoundPacketStruct* frame = SoundSource->packetList[i];
+			SoundPacketStruct packet = *(frame+j);
+			s.packetList[i][j] = packet;
+		}
+	}
+	*soundSourceToReturn = s;
 }
+
