@@ -49,6 +49,29 @@ struct SoundGridStruct {
 	int z;
 };
 
+struct SoundGridToReturn {
+	SoundGridToReturn(float e, float a, float r, bool w, bool u, int _x, int _z) : epsilon(e), absorptionRate(a), reflectionRate(r), flagWall(w), updated(u), x(_x), z(_z) 
+	{
+		for (int i = 0; i < 400; i++)
+		{
+			IN[i] = SoundPacketStruct(0.0f);
+			OUT[i] = SoundPacketStruct(0.0f);
+		}
+	} 
+
+	SoundPacketStruct IN[400];
+	SoundPacketStruct OUT[400];
+	int sizeOfIn[4];
+	int sizeOfOut[4];
+	int x;
+	int z;
+	float epsilon;
+	float absorptionRate;
+	float reflectionRate;
+	bool flagWall;
+	bool updated;
+};
+
 struct SoundSourceStruct {
 	SoundSourceStruct(int _x, int _z) 
 	{ 

@@ -60,6 +60,28 @@ extern "C" EXPORT float sumInForPosition(int x, int z)
 	return value;
 }
 
+extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* grid)
+{
+	SoundGridStruct s = SoundMap[z*columns+x];
+	SoundGridToReturn g = SoundGridToReturn(s.epsilon, s.absorptionRate, s.reflectionRate, s.flagWall, s.updated, s.x, s.z);
+	for (int i = 0; i < 4; i++)
+	{
+		g.sizeOfIn[i] = s.sizeOfIn[i];
+		g.sizeOfOut[i] = s.sizeOfOut[i];
+		for (int j = 0; j < s.sizeOfIn[i]; j++)
+		{
+			g.IN[(i*100)+j] = s.IN[i][j];
+		}
+		for (int j = 0; j < s.sizeOfOut[i]; j++)
+		{
+			g.IN[(i*100)+j] = s.OUT[i][j];
+		}
+
+	}
+	*grid = g;
+
+}
+
 extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)
 {
 	SoundStructToReturn s(SoundSource->limitTickCount, SoundSource->x, SoundSource->z);
