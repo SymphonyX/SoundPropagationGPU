@@ -36,6 +36,20 @@ struct SoundGridStruct {
 	  }
 	}
 
+	__host__ __device__ void addPacketToIn(int direction, SoundPacketStruct packet)
+	{
+		int index = sizeOfIn[direction];
+		IN[direction][index+1] = packet;
+		sizeOfIn[direction] = index + 1;
+	}
+
+	__host__ __device__ void addPacketToOut(int direction, SoundPacketStruct packet)
+	{
+		int index = sizeOfOut[direction];
+		OUT[direction][index+1] = packet;
+		sizeOfOut[direction] = index + 1;
+	}
+
 	SoundPacketStruct** IN;
 	SoundPacketStruct** OUT;
 	int* sizeOfIn;
@@ -83,9 +97,9 @@ struct SoundSourceStruct {
 
 		int len = 10;
 		for (int i = 0; i < 150; ++i) {
-			*(packetList+i) = (SoundPacketStruct*)malloc(sizeof(SoundPacketStruct));
+			packetList[i] = (SoundPacketStruct*)malloc(sizeof(SoundPacketStruct)*10);
 			SoundPacketStruct soundPacket = SoundPacketStruct(i < len ? 10.0f : 0.1f);
-			*(packetList+i) = &soundPacket;
+			*packetList[i] = soundPacket;
 
 			*(sizesOfPacketList+i) = 1;
 		}
@@ -102,16 +116,17 @@ struct SoundStructToReturn
 {
 	SoundStructToReturn(int _limitTick, int _x, int _z) : x(_x), z(_z), limitTick(_limitTick)
 	{
-		for (int i =0; i < 150; i ++)
+		for (int i = 0; i < 150; i ++)
 		{
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 10; j++)
 			{
-				packetList[i][j] = SoundPacketStruct();
+				SoundPacketStruct packet = SoundPacketStruct(0.0f);
+				packetList[(i*10)+j] = packet;
 			}
 			sizeOfPacketList[i] = 0;
 		}
 	}
-	SoundPacketStruct packetList[150][100];
+	SoundPacketStruct packetList[1500];
 	int sizeOfPacketList[150];
 	int limitTick;
 	int x;

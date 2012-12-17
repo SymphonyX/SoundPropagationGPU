@@ -94,7 +94,7 @@ extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceTo
 		{
 			SoundPacketStruct* frame = SoundSource->packetList[i];
 			SoundPacketStruct packet = *(frame+j);
-			s.packetList[i][j] = packet;
+			s.packetList[(i*10)+j] = packet;
 		}
 	}
 	*soundSourceToReturn = s;
