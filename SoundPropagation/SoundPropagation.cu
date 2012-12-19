@@ -47,26 +47,21 @@ __device__ SoundGridStruct* neighborAtDirection(SoundGridStruct* soundMap, Sound
 
 __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soundMap, int rows, int columns, int tick)
 {
-	int x = threadIdx.x + blockIdx.x * blockDim.x;
-	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int x = threadIdx.x;
+	int y = blockIdx.x;
 
 	tick = tick % 150;
 
 	if (soundSource->x == x && soundSource->z == y)
 	{
 		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
-		SoundPacketStruct* frame = soundSource->packetList[tick];
 		int frameSize = soundSource->sizesOfPacketList[tick];
 		for (int index = 0; index < frameSize; index++) 
 		{
 			for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
 			{
 				int nextIndex = soundGrid->sizeOfIn[direction];
-				SoundPacketStruct soundPacket = SoundPacketStruct(0.0f);
-				soundPacket.amplitude = (frame+index)->amplitude;
-				soundPacket.minRange = (frame+index)->minRange;
-				soundPacket.maxRange = (frame+index)->maxRange;
-				soundGrid->IN[direction][nextIndex] = soundPacket;
+				soundGrid->IN[direction][nextIndex] = soundSource->packetList[tick][index];
 				soundGrid->sizeOfIn[direction] = nextIndex+1;
 			}
 		}
@@ -199,8 +194,8 @@ __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick) 
 {
-	dim3 blocks(1,1);
-	dim3 threads(columns, rows);
+	dim3 blocks(64, 1, 1);
+	dim3 threads(64, 1, 1);
 
 	
 	SoundGridStruct* soundMap_dev;

@@ -1,163 +1,15 @@
-﻿Build started 12/16/2012 7:30:00 PM.
+﻿Build started 12/19/2012 12:13:00 AM.
      1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Release\SoundPropagation.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Release\SoundPropagation.unsuccessfulbuild".
        AddCudaCompileDeps:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /I. /FIcuda_runtime.h /c "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
+       Skipping target "AddCudaCompileDeps" because all output files are up-to-date with respect to the input files.
        AddCudaCompilePropsDeps:
        Skipping target "AddCudaCompilePropsDeps" because all output files are up-to-date with respect to the input files.
        CudaBuild:
-         Compiling CUDA source file SoundPropagation.cu...
-         cmd.exe /C "C:\Users\Pancho\AppData\Local\Temp\968f187f841b413a87749a0c6456502f.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu"
-         
-         C:\CUDA Projects\SoundPropagation\SoundPropagation>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
-         SoundPropagation.cu
-         tmpxft_00001b30_00000000-0_SoundPropagation.cudafe1.gpu
-         tmpxft_00001b30_00000000-5_SoundPropagation.cudafe2.gpu
-         SoundPropagation.cu
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(58): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(59): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(64): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(67): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(68): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(70): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(64): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(67): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(68): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(70): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(64): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(67): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(68): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(70): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(64): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(67): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(68): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(69): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(70): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(82): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(82): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(89): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(91): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(95): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(96): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(111): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(111): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(111): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(111): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(116): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(116): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(116): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(116): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(126): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(127): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(128): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(129): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(129): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(130): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(137): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(139): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(140): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(140): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(148): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(149): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(149): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(152): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(153): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(153): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(156): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(157): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(157): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(160): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(161): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(161): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(163): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(179): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(184): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(189): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(189): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(192): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(192): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(193): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(193): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(193): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(193): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(194): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(194): warning : Cannot tell what pointer points to, assuming global memory space
-     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(190): warning : Cannot tell what pointer points to, assuming global memory space
-         tmpxft_00001b30_00000000-0_SoundPropagation.cudafe1.cpp
-         tmpxft_00001b30_00000000-11_SoundPropagation.ii
+       Skipping target "CudaBuild" because all output files are up-to-date with respect to the input files.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SOUNDPROPAGATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
+         All outputs are up-to-date.
        Link:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\CUDA Projects\SoundPropagation\Release\SoundPropagation.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\SoundPropagation.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\CUDA Projects\SoundPropagation\Release\SoundPropagation.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\CUDA Projects\SoundPropagation\Release\SoundPropagation.lib" /MACHINE:X86 /DLL Release\SoundPropagation.cu.obj
          Release\main.obj
@@ -174,4 +26,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.73
+Time Elapsed 00:00:00.42

@@ -23,16 +23,15 @@ struct SoundGridStruct {
 	  flagWall = false;
 	  updated = false;
 
-	  IN = (SoundPacketStruct**)malloc(4*sizeof(SoundPacketStruct*));
-	  OUT = (SoundPacketStruct**)malloc(4*sizeof(SoundPacketStruct*));
-	  sizeOfIn = (int*)malloc(4*sizeof(int));
-	  sizeOfOut = (int*)malloc(4*sizeof(int));
 	  for (int i = 0; i < 4; i++) 
 	  {
-		  *(IN+i) = (SoundPacketStruct*)malloc(100*sizeof(SoundPacketStruct));
-		  *(OUT+i) = (SoundPacketStruct*)malloc(100*sizeof(SoundPacketStruct));
-		  *(sizeOfIn+i) = 0;
-		  *(sizeOfOut+i) = 0;
+		  sizeOfIn[i] = 0;
+		  sizeOfOut[i] = 0;
+		  for (int j = 0; j < 100; j++)
+		  {
+			  IN[i][j] = SoundPacketStruct(0.0f);
+			  OUT[i][j] = SoundPacketStruct(0.0f);
+		  }
 	  }
 	}
 
@@ -50,10 +49,10 @@ struct SoundGridStruct {
 		sizeOfOut[direction] = index + 1;
 	}
 
-	SoundPacketStruct** IN;
-	SoundPacketStruct** OUT;
-	int* sizeOfIn;
-	int* sizeOfOut;
+	SoundPacketStruct IN[4][100];
+	SoundPacketStruct OUT[4][100];
+	int sizeOfIn[4];
+	int sizeOfOut[4];
 	float epsilon;
 	float absorptionRate;
 	float reflectionRate;
@@ -92,21 +91,16 @@ struct SoundSourceStruct {
 		x =_x; 
 		z = _z; 
 		limitTickCount = 100000;
-		packetList = (SoundPacketStruct**)malloc(150*sizeof(SoundPacketStruct*));
-		sizesOfPacketList = (int*)malloc(150*sizeof(int));
 
 		int len = 10;
 		for (int i = 0; i < 150; ++i) {
-			packetList[i] = (SoundPacketStruct*)malloc(sizeof(SoundPacketStruct)*10);
-			SoundPacketStruct soundPacket = SoundPacketStruct(i < len ? 10.0f : 0.1f);
-			*packetList[i] = soundPacket;
-
-			*(sizesOfPacketList+i) = 1;
+			packetList[i][0] =  SoundPacketStruct(i < len ? 10.0f : 0.1f);
+			sizesOfPacketList[i] = 1;
 		}
 	}
 
-	SoundPacketStruct** packetList;
-	int* sizesOfPacketList;
+	SoundPacketStruct packetList[150][10];
+	int sizesOfPacketList[150];
 	int limitTickCount;
 	int x;
 	int z;

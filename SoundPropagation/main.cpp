@@ -1,6 +1,10 @@
+
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
+#include "MarshalStructs.cu"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "MarshalStructs.cu"
 
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
@@ -15,7 +19,7 @@ extern "C" EXPORT void createSoundMap(int _rows, int _columns)
 {
 	rows = _rows;
 	columns = _columns;
-	size_t mapSize = (rows*sizeof(SoundGridStruct))*(columns*sizeof(SoundGridStruct));
+	size_t mapSize = (rows*columns*sizeof(SoundGridStruct));
 	SoundMap = (SoundGridStruct*) malloc(mapSize);
 
 	int i, j;
@@ -99,4 +103,5 @@ extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceTo
 	}
 	*soundSourceToReturn = s;
 }
+
 
