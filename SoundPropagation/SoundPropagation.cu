@@ -173,8 +173,7 @@ __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 			for (int index = 0; index < soundGrid->sizeOfOut[direction]; index++)
 			{
 				SoundPacketStruct packet = SoundPacketStruct(frame[index].amplitude, frame[index].minRange, frame[index].maxRange); 
-				neighborFrame[index] = packet;
-				neighbor->sizeOfIn[revDirection] += 1;
+				neighbor->addPacketToIn(revDirection, packet);
 			}
 		}
 	}
@@ -197,7 +196,7 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	emitKernel<<<blocks, threads>>> (soundSource_dev, soundMap_dev, rows, columns, tick);
 	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
-	//collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
+	collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 
 	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
 	cudaMemcpy(soundSource, soundSource_dev, sizeof(SoundSourceStruct), cudaMemcpyDeviceToHost);
