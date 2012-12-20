@@ -1,13 +1,23 @@
-﻿Build started 12/19/2012 12:13:00 AM.
+﻿Build started 12/19/2012 7:27:13 PM.
      1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Release\SoundPropagation.unsuccessfulbuild".
+         Creating "Release\SoundPropagation.unsuccessfulbuild" because "AlwaysCreate" was specified.
        AddCudaCompileDeps:
-       Skipping target "AddCudaCompileDeps" because all output files are up-to-date with respect to the input files.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /I. /FIcuda_runtime.h /c "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
        AddCudaCompilePropsDeps:
        Skipping target "AddCudaCompilePropsDeps" because all output files are up-to-date with respect to the input files.
        CudaBuild:
-       Skipping target "CudaBuild" because all output files are up-to-date with respect to the input files.
+         Compiling CUDA source file SoundPropagation.cu...
+         cmd.exe /C "C:\Users\Pancho\AppData\Local\Temp\ac0f2fa2f58a406ba1739fa06ebf3a31.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu"
+         
+         C:\CUDA Projects\SoundPropagation\SoundPropagation>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
+         SoundPropagation.cu
+         tmpxft_0000139c_00000000-0_SoundPropagation.cudafe1.gpu
+         tmpxft_0000139c_00000000-5_SoundPropagation.cudafe2.gpu
+         SoundPropagation.cu
+         tmpxft_0000139c_00000000-0_SoundPropagation.cudafe1.cpp
+         tmpxft_0000139c_00000000-11_SoundPropagation.ii
        ClCompile:
          All outputs are up-to-date.
        Link:
@@ -26,4 +36,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.42
+Time Elapsed 00:00:02.93

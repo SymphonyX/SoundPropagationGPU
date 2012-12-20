@@ -60,9 +60,7 @@ __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soun
 		{
 			for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
 			{
-				int nextIndex = soundGrid->sizeOfIn[direction];
-				soundGrid->IN[direction][nextIndex] = soundSource->packetList[tick][index];
-				soundGrid->sizeOfIn[direction] = nextIndex+1;
+				soundGrid->addPacketToIn(direction, soundSource->packetList[tick][index]);
 			}
 		}
 
@@ -87,8 +85,7 @@ __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 		if (abs(soundPacket.amplitude) > soundGrid->epsilon)
 		{
-			SoundPacketStruct* packetListPtr = soundGrid->IN[direction];
-			*(packetListPtr+soundGrid->sizeOfIn[direction]) = soundPacket;
+			soundGrid->addPacketToIn(direction, soundPacket);
 		}
 		soundGrid->updated = true;
 	}
@@ -207,7 +204,7 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	cudaMemcpy(soundSource_dev, soundSource, sizeof(SoundSourceStruct), cudaMemcpyHostToDevice);
 
 	emitKernel<<<blocks, threads>>> (soundSource_dev, soundMap_dev, rows, columns, tick);
-	//mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
+	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	//scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	//collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 

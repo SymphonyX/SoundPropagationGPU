@@ -38,14 +38,14 @@ struct SoundGridStruct {
 	__host__ __device__ void addPacketToIn(int direction, SoundPacketStruct packet)
 	{
 		int index = sizeOfIn[direction];
-		IN[direction][index+1] = packet;
+		IN[direction][index] = packet;
 		sizeOfIn[direction] = index + 1;
 	}
 
 	__host__ __device__ void addPacketToOut(int direction, SoundPacketStruct packet)
 	{
 		int index = sizeOfOut[direction];
-		OUT[direction][index+1] = packet;
+		OUT[direction][index] = packet;
 		sizeOfOut[direction] = index + 1;
 	}
 
