@@ -78,7 +78,7 @@ extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* gri
 		}
 		for (int j = 0; j < s.sizeOfOut[i]; j++)
 		{
-			g.IN[(i*100)+j] = s.OUT[i][j];
+			g.OUT[(i*100)+j] = s.OUT[i][j];
 		}
 
 	}

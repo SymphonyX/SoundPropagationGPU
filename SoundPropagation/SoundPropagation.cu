@@ -69,8 +69,8 @@ __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soun
 
 __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x + blockIdx.x * blockDim.x;
-	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int x = threadIdx.x;
+	int y = blockIdx.x;
 	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
 	soundGrid->updated = false;
 	for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
@@ -93,8 +93,8 @@ __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x + blockIdx.x * blockDim.x;
-	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int x = threadIdx.x;
+	int y = blockIdx.x;
 	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
 	soundGrid->updated = false;
 	
@@ -117,8 +117,7 @@ __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 					SoundPacketStruct packetCopy = SoundPacketStruct(packet->amplitude * soundGrid->reflectionRate);
 					packetCopy.maxRange = packet->maxRange;
 					packetCopy.minRange = packet->minRange;
-					*(outVector+soundGrid->sizeOfOut[direction]) = packetCopy;
-					soundGrid->sizeOfOut[direction] += 1;
+					soundGrid->addPacketToOut(direction, packetCopy);
 					soundGrid->updated = true;
 				}
 
@@ -126,31 +125,23 @@ __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 		} 
 		else 
 		{
-			SoundPacketStruct* forwardVector = soundGrid->OUT[reverseDirection(direction)];
-			SoundPacketStruct* backwardVector = soundGrid->OUT[direction];
-			SoundPacketStruct* clockwiseVector = soundGrid->OUT[clockwiseDirection(direction)];
-			SoundPacketStruct* counterClockwiseVector = soundGrid->OUT[counterClockwiseDirection(direction)];
 
 			for (int index = 0; index < soundGrid->sizeOfIn[direction]; index++)
 			{
 				SoundPacketStruct* soundPacket = (inVector+index);
 				if (abs(soundPacket->amplitude > soundGrid->epsilon))
 				{
-					int* fwdVectorSize = &soundGrid->sizeOfOut[reverseDirection(direction)];
-					*(forwardVector+*fwdVectorSize) = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
-					*fwdVectorSize +=1;
+					SoundPacketStruct fwdPacket = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
+					soundGrid->addPacketToOut(reverseDirection(direction), fwdPacket);
 
-					int* backwardVectorSize = &soundGrid->sizeOfOut[direction];
-					*(backwardVector+*backwardVectorSize) = SoundPacketStruct(soundGrid->absorptionRate * -soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
-					*backwardVectorSize +=1;
+					SoundPacketStruct bckPacket = SoundPacketStruct(soundGrid->absorptionRate * -soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
+					soundGrid->addPacketToOut(direction, bckPacket);
 
-					int* clockwiseVectorSize = &soundGrid->sizeOfOut[clockwiseDirection(direction)];
-					*(clockwiseVector+*clockwiseVectorSize) = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
-					*clockwiseVectorSize +=1;
+					SoundPacketStruct clockwisePacket = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
+					soundGrid->addPacketToOut(clockwiseDirection(direction), clockwisePacket);
 
-					int* counterClockwiseVectorSize = &soundGrid->sizeOfOut[counterClockwiseDirection(direction)];
-					*(counterClockwiseVector+*counterClockwiseVectorSize) = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
-					*counterClockwiseVectorSize +=1;
+					SoundPacketStruct ctClockwisePacket = SoundPacketStruct(soundGrid->absorptionRate * soundPacket->amplitude / 2, soundPacket->minRange, soundPacket->maxRange);
+					soundGrid->addPacketToOut(counterClockwiseDirection(direction), ctClockwisePacket);
 
 					soundGrid->updated = true;
 				}
@@ -161,8 +152,8 @@ __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x + blockIdx.x * blockDim.x;
-	int y = threadIdx.y + blockIdx.y * blockDim.y;
+	int x = threadIdx.x;
+	int y = blockIdx.x;
 	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
 	
 	for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
@@ -205,7 +196,7 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 
 	emitKernel<<<blocks, threads>>> (soundSource_dev, soundMap_dev, rows, columns, tick);
 	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
-	//scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
+	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	//collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 
 	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
