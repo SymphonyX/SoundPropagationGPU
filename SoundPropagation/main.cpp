@@ -10,6 +10,7 @@
 #define EXPORT __declspec(dllexport)
 
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick);
+extern "C" void sumInKernel(int rows, int columns, float* map);
 
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
@@ -55,7 +56,7 @@ extern "C" EXPORT float sumInForPosition(int x, int z)
 	SoundGridStruct* soundGrid = &SoundMap[z*columns+x];
 	for (int direction = 0; direction < 4; direction++)
 	{
-		for (int i = 0; soundGrid->sizeOfIn[direction]; i++)
+		for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
 		{
 			SoundPacketStruct* frame = soundGrid->IN[direction];
 			value += frame[i].amplitude;
@@ -64,9 +65,8 @@ extern "C" EXPORT float sumInForPosition(int x, int z)
 	return value;
 }
 
-extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* grid)
+SoundGridToReturn convertGrid(SoundGridStruct s)
 {
-	SoundGridStruct s = SoundMap[z*columns+x];
 	SoundGridToReturn g = SoundGridToReturn(s.epsilon, s.absorptionRate, s.reflectionRate, s.flagWall, s.updated, s.x, s.z);
 	for (int i = 0; i < 4; i++)
 	{
@@ -82,8 +82,27 @@ extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* gri
 		}
 
 	}
-	*grid = g;
+	return g;
+}
 
+extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* grid)
+{
+	SoundGridStruct s = SoundMap[z*columns+x];
+	*grid = convertGrid(s);
+
+}
+
+
+
+extern "C" EXPORT void CALL returnSoundMap(float map[])
+{
+	int index = 0;
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++) {
+			map[index] = sumInForPosition(j, i);
+			index++;
+		}
+	}
 }
 
 extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)
