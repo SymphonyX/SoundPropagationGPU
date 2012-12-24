@@ -19,6 +19,7 @@ int rows; int columns;
 
 extern "C" EXPORT void createSoundMap(int _rows, int _columns) 
 {
+	free(SoundMap);
 	rows = _rows;
 	columns = _columns;
 	size_t mapSize = (rows*columns*sizeof(SoundGridStruct));
@@ -61,6 +62,7 @@ extern "C" EXPORT void flagWall(int x, int z, float reflectionRate)
 
 extern "C" EXPORT void initSoundSource(int x, int z)
 {
+	free(SoundSource);
 	SoundSource = (SoundSourceStruct*)malloc(sizeof(SoundSourceStruct));
 	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
 	*SoundSource = soundSource; 
