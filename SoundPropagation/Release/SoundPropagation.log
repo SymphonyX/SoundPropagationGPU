@@ -1,13 +1,27 @@
-﻿Build started 12/24/2012 9:51:34 AM.
+﻿Build started 12/24/2012 10:48:23 AM.
      1>Project "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\SoundPropagation.unsuccessfulbuild" because "AlwaysCreate" was specified.
        AddCudaCompileDeps:
-       Skipping target "AddCudaCompileDeps" because all output files are up-to-date with respect to the input files.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /I. /FIcuda_runtime.h /c "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
        AddCudaCompilePropsDeps:
        Skipping target "AddCudaCompilePropsDeps" because all output files are up-to-date with respect to the input files.
        CudaBuild:
-       Skipping target "CudaBuild" because all output files are up-to-date with respect to the input files.
+         Compiling CUDA source file SoundPropagation.cu...
+         cmd.exe /C "C:\Users\Pancho\AppData\Local\Temp\e9e8fcda9095400b9ee22b06f040428a.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu"
+         
+         C:\CUDA Projects\SoundPropagation\SoundPropagation>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\bin\nvcc.exe" -gencode=arch=compute_10,code=\"sm_10,compute_10\" --use-local-env --cl-version 2010 -ccbin "c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include"    --keep-dir "Release" -maxrregcount=0  --machine 32 --compile      -Xcompiler "/EHsc /nologo /Od /Zi  /MD  " -o "Release\SoundPropagation.cu.obj" "C:\CUDA Projects\SoundPropagation\SoundPropagation\SoundPropagation.cu" 
+         SoundPropagation.cu
+     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(189): warning : variable "maxThreads" was declared but never referenced
+         
+         tmpxft_000005e8_00000000-0_SoundPropagation.cudafe1.gpu
+         tmpxft_000005e8_00000000-5_SoundPropagation.cudafe2.gpu
+         SoundPropagation.cu
+     1>C:/CUDA Projects/SoundPropagation/SoundPropagation/SoundPropagation.cu(189): warning : variable "maxThreads" was declared but never referenced
+         
+         tmpxft_000005e8_00000000-0_SoundPropagation.cudafe1.cpp
+         tmpxft_000005e8_00000000-11_SoundPropagation.ii
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v4.2\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D SOUNDPROPAGATION_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
@@ -27,4 +41,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.63
+Time Elapsed 00:00:03.89

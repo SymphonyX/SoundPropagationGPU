@@ -9,7 +9,7 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick);
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties);
 extern "C" void sumInKernel(int rows, int columns, float* map);
 
 cudaDeviceProp selectedGPUProp;
@@ -68,7 +68,7 @@ extern "C" EXPORT void initSoundSource(int x, int z)
 
 extern "C" EXPORT void runMainLoop(int tick)
 {
-	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick);
+	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick, selectedGPUProp);
 }
 
 extern "C" EXPORT float sumInForPosition(int x, int z)

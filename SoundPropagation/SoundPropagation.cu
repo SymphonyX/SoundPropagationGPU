@@ -183,10 +183,19 @@ __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 	}
 }
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick) 
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties) 
 {
-	dim3 blocks(64, 1, 1);
-	dim3 threads(64, 1, 1);
+	int warpSize = deviceProperties.warpSize;
+	int maxThreads = deviceProperties.maxThreadsPerBlock;
+	int numberOfCores = deviceProperties.multiProcessorCount;
+	int gridSize = columns*rows;
+
+	int numberOfwarps = ceil((double)gridSize/warpSize);
+	int numberOfBlocks = ceil((double)numberOfwarps/numberOfCores); 
+	int numberOfThreads = ceil((double)gridSize/numberOfBlocks);
+	
+	dim3 blocks(numberOfBlocks, 1, 1);
+	dim3 threads(numberOfThreads, 1, 1);
 
 	
 	SoundGridStruct* soundMap_dev;
