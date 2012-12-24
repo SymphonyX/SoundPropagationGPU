@@ -12,6 +12,7 @@
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick);
 extern "C" void sumInKernel(int rows, int columns, float* map);
 
+cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
 int rows; int columns;
@@ -30,6 +31,26 @@ extern "C" EXPORT void createSoundMap(int _rows, int _columns)
 			SoundMap[i*columns+j] = newSoundGrid;
 		}
 	}
+}
+
+extern "C" EXPORT void selectBestGPU()
+{
+	int devCount;
+    cudaGetDeviceCount(&devCount);
+
+	int processorCount = 0;
+	int selectedGPU = 0;
+    for (int i = 0; i < devCount; ++i)
+    {
+        cudaDeviceProp devProp;
+        cudaGetDeviceProperties(&devProp, i);
+		if (processorCount < devProp.multiProcessorCount) {
+			selectedGPU = i;
+			processorCount = devProp.multiProcessorCount;
+			selectedGPUProp = devProp;
+		}
+    }
+	cudaSetDevice(selectedGPU);
 }
 
 extern "C" EXPORT void flagWall(int x, int z, float reflectionRate)
