@@ -10,7 +10,7 @@
 #define EXPORT __declspec(dllexport)
 
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties);
-extern "C" void sumInKernel(int rows, int columns, float* map);
+extern "C" void sumInKernel(int rows, int columns, float* map, SoundGridStruct* soundMap);
 
 cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
@@ -119,13 +119,8 @@ extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* gri
 
 extern "C" EXPORT void CALL returnSoundMap(float map[])
 {
-	int index = 0;
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			map[index] = sumInForPosition(j, i);
-			index++;
-		}
-	}
+	float* mapPtr = map;
+	sumInKernel(rows, columns, mapPtr, SoundMap);
 }
 
 extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)

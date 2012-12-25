@@ -245,3 +245,22 @@ __global__ void computeValuesKernel(int rows, int columns, float* map, SoundGrid
 	map[y*columns+x] = value;
 }
 
+extern "C" void sumInKernel(int rows, int columns, float* map, SoundGridStruct* soundMap)
+{
+	dim3 blocks(rows, 1, 1);
+	dim3 threads(columns, 1, 1);
+
+	float* map_dev;
+	cudaMalloc((void**)&map_dev, (rows*columns)*sizeof(float));
+	cudaMemcpy(map_dev, map, (rows*columns)*sizeof(float), cudaMemcpyHostToDevice);
+
+	SoundGridStruct* soundMap_dev;
+	cudaMalloc((void**)&soundMap_dev, (rows*columns)*sizeof(SoundGridStruct));
+	cudaMemcpy(soundMap_dev, soundMap, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyHostToDevice);
+
+	computeValuesKernel<<<blocks, threads>>> (rows, columns, map_dev, soundMap_dev);
+
+	cudaMemcpy(map, map_dev, (rows*columns)*sizeof(float), cudaMemcpyDeviceToHost);
+
+	cudaFree(soundMap_dev); cudaFree(map_dev);
+}
