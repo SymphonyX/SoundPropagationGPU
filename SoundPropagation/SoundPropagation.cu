@@ -45,25 +45,19 @@ __device__ SoundGridStruct* neighborAtDirection(SoundGridStruct* soundMap, Sound
 
 //************KERNELS******************//
 
-__global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soundMap, int rows, int columns, int tick)
+void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soundMap, int rows, int columns, int tick, int y, int x)
 {
-	int x = threadIdx.x;
-	int y = blockIdx.x;
 
 	tick = tick % 150;
 
-	if (soundSource->x == x && soundSource->z == y)
+	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+	int frameSize = soundSource->sizesOfPacketList[tick];
+	for (int index = 0; index < frameSize; index++) 
 	{
-		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
-		int frameSize = soundSource->sizesOfPacketList[tick];
-		for (int index = 0; index < frameSize; index++) 
+		for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
 		{
-			for (int direction = 0; direction < NUMBER_OF_DIRECTIONS; direction++)
-			{
-				soundGrid->addPacketToIn(direction, soundSource->packetList[tick][index]);
-			}
+			soundGrid->addPacketToIn(direction, soundSource->packetList[tick][index]);
 		}
-
 	}
 }
 
@@ -206,6 +200,8 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	dim3 threads(columns, 1, 1);
 
 	
+	emitKernel(soundSource, soundMap, rows, columns, tick, soundSource->z, soundSource->x);
+
 	SoundGridStruct* soundMap_dev;
 	cudaMalloc((void**)&soundMap_dev, (rows*columns)*sizeof(SoundGridStruct));
 	cudaMemcpy(soundMap_dev, soundMap, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyHostToDevice);
@@ -214,7 +210,6 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	cudaMalloc((void**)&soundSource_dev, sizeof(SoundSourceStruct));
 	cudaMemcpy(soundSource_dev, soundSource, sizeof(SoundSourceStruct), cudaMemcpyHostToDevice);
 
-	emitKernel<<<blocks, threads>>> (soundSource_dev, soundMap_dev, rows, columns, tick);
 	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
