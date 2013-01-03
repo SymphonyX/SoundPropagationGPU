@@ -9,8 +9,7 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties);
-extern "C" void sumInKernel(int rows, int columns, float* map, SoundGridStruct* soundMap);
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties, float* map);
 
 cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
@@ -68,9 +67,10 @@ extern "C" EXPORT void initSoundSource(int x, int z)
 	*SoundSource = soundSource; 
 }
 
-extern "C" EXPORT void runMainLoop(int tick)
+extern "C" EXPORT void runMainLoop(int tick, float map[])
 {
-	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick, selectedGPUProp);
+	float* map_ptr = map;
+	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick, selectedGPUProp, map_ptr);
 }
 
 extern "C" EXPORT float sumInForPosition(int x, int z)
@@ -113,14 +113,6 @@ extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* gri
 	SoundGridStruct s = SoundMap[z*columns+x];
 	*grid = convertGrid(s);
 
-}
-
-
-
-extern "C" EXPORT void CALL returnSoundMap(float map[])
-{
-	float* mapPtr = map;
-	sumInKernel(rows, columns, mapPtr, SoundMap);
 }
 
 extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)

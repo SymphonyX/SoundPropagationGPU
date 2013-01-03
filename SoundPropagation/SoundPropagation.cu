@@ -185,7 +185,25 @@ __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 	}
 }
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties) 
+__global__ void computeValuesKernel(int rows, int columns, float* map, SoundGridStruct* soundMap)
+{
+	int x = threadIdx.x;
+	int y = blockIdx.x;
+
+	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+	float value = 0.0f;
+	for (int direction = 0; direction < 4; direction++)
+	{
+		for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
+		{
+			SoundPacketStruct* frame = soundGrid->IN[direction];
+			value += frame[i].amplitude;
+		}
+	}
+	map[y*columns+x] = value;
+}
+
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties, float* map) 
 {
 	int warpSize = deviceProperties.warpSize;
 	int maxThreads = deviceProperties.maxThreadsPerBlock;
@@ -214,48 +232,20 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 
-	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
-	cudaMemcpy(soundSource, soundSource_dev, sizeof(SoundSourceStruct), cudaMemcpyDeviceToHost);
-
-	cudaFree(soundMap_dev); cudaFree(soundSource_dev);
-}
-
-
-
-__global__ void computeValuesKernel(int rows, int columns, float* map, SoundGridStruct* soundMap)
-{
-	int x = threadIdx.x;
-	int y = blockIdx.x;
-
-	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
-	float value = 0.0f;
-	for (int direction = 0; direction < 4; direction++)
-	{
-		for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
-		{
-			SoundPacketStruct* frame = soundGrid->IN[direction];
-			value += frame[i].amplitude;
-		}
-	}
-	map[y*columns+x] = value;
-}
-
-extern "C" void sumInKernel(int rows, int columns, float* map, SoundGridStruct* soundMap)
-{
-	dim3 blocks(rows, 1, 1);
-	dim3 threads(columns, 1, 1);
-
+	//*****Values****//
 	float* map_dev;
 	cudaMalloc((void**)&map_dev, (rows*columns)*sizeof(float));
 	cudaMemcpy(map_dev, map, (rows*columns)*sizeof(float), cudaMemcpyHostToDevice);
-
-	SoundGridStruct* soundMap_dev;
-	cudaMalloc((void**)&soundMap_dev, (rows*columns)*sizeof(SoundGridStruct));
-	cudaMemcpy(soundMap_dev, soundMap, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyHostToDevice);
 
 	computeValuesKernel<<<blocks, threads>>> (rows, columns, map_dev, soundMap_dev);
 
 	cudaMemcpy(map, map_dev, (rows*columns)*sizeof(float), cudaMemcpyDeviceToHost);
 
-	cudaFree(soundMap_dev); cudaFree(map_dev);
+	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
+	cudaMemcpy(soundSource, soundSource_dev, sizeof(SoundSourceStruct), cudaMemcpyDeviceToHost);
+
+	cudaFree(soundMap_dev); cudaFree(soundSource_dev); cudaFree(map_dev);
 }
+
+
+
