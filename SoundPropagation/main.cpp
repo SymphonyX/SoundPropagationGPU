@@ -10,11 +10,23 @@
 #define EXPORT __declspec(dllexport)
 
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties, float* map);
+extern "C" void cleanCuda();
+extern "C" void cleanSourceCuda();
 
 cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
 int rows; int columns;
+
+extern "C" EXPORT void cleanMaps()
+{
+	cleanCuda();
+}
+
+extern "C" EXPORT void cleanSoundSource()
+{
+	cleanSourceCuda();
+}
 
 extern "C" EXPORT void createSoundMap(int _rows, int _columns) 
 {
