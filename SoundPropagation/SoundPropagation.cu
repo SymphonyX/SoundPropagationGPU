@@ -218,16 +218,11 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	dim3 blocks(rows, 1, 1);
 	dim3 threads(columns, 1, 1);
 
-	
 	emitKernel(soundSource, soundMap, rows, columns, tick, soundSource->z, soundSource->x);
 
 	SoundGridStruct* soundMap_dev;
 	cudaMalloc((void**)&soundMap_dev, (rows*columns)*sizeof(SoundGridStruct));
 	cudaMemcpy(soundMap_dev, soundMap, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyHostToDevice);
-
-	SoundSourceStruct* soundSource_dev;
-	cudaMalloc((void**)&soundSource_dev, sizeof(SoundSourceStruct));
-	cudaMemcpy(soundSource_dev, soundSource, sizeof(SoundSourceStruct), cudaMemcpyHostToDevice);
 
 	mergeKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 	scatterKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
@@ -244,9 +239,8 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	cudaMemcpy(map, map_dev, (rows*columns)*sizeof(float), cudaMemcpyDeviceToHost);
 
 	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
-	cudaMemcpy(soundSource, soundSource_dev, sizeof(SoundSourceStruct), cudaMemcpyDeviceToHost);
 
-	cudaFree(soundMap_dev); cudaFree(soundSource_dev);
+	cudaFree(soundMap_dev);
 }
 
 
