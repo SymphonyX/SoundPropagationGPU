@@ -4,6 +4,7 @@
 #define NUMBER_OF_DIRECTIONS 4
 
 enum {North = 0, East = 1, South = 2, West = 3, None = -1} Direction;
+float* map_dev = NULL; 
 
 //***********HELPER FUNCTIONS*************//
 
@@ -233,9 +234,10 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	collectKernel<<<blocks, threads>>> (soundMap_dev, rows, columns);
 
 	//*****Values****//
-	float* map_dev;
-	cudaMalloc((void**)&map_dev, (rows*columns)*sizeof(float));
-	cudaMemcpy(map_dev, map, (rows*columns)*sizeof(float), cudaMemcpyHostToDevice);
+	if (map_dev == NULL) {
+		cudaMalloc((void**)&map_dev, (rows*columns)*sizeof(float));
+		cudaMemcpy(map_dev, map, (rows*columns)*sizeof(float), cudaMemcpyHostToDevice);
+	}
 
 	computeValuesKernel<<<blocks, threads>>> (rows, columns, map_dev, soundMap_dev);
 
@@ -244,7 +246,7 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	cudaMemcpy(soundMap, soundMap_dev, (rows*columns)*sizeof(SoundGridStruct), cudaMemcpyDeviceToHost);
 	cudaMemcpy(soundSource, soundSource_dev, sizeof(SoundSourceStruct), cudaMemcpyDeviceToHost);
 
-	cudaFree(soundMap_dev); cudaFree(soundSource_dev); cudaFree(map_dev);
+	cudaFree(soundMap_dev); cudaFree(soundSource_dev);
 }
 
 
