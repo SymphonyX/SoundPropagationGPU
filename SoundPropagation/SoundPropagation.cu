@@ -231,7 +231,6 @@ extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundM
 	//*****Values****//
 	if (map_dev == NULL) {
 		cudaMalloc((void**)&map_dev, (rows*columns)*sizeof(float));
-		cudaMemcpy(map_dev, map, (rows*columns)*sizeof(float), cudaMemcpyHostToDevice);
 	}
 
 	computeValuesKernel<<<blocks, threads>>> (rows, columns, map_dev, soundMap_dev);
