@@ -9,14 +9,14 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick, cudaDeviceProp deviceProperties, float* map);
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int sourceCount, int tick, cudaDeviceProp deviceProperties, float* map);
 extern "C" void cleanCuda();
 extern "C" void cleanSourceCuda();
 
 cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
-int rows; int columns;
+int rows; int columns; int sources;
 
 extern "C" EXPORT void cleanMaps()
 {
@@ -71,18 +71,23 @@ extern "C" EXPORT void flagWall(int x, int z, float reflectionRate)
 	SoundMap[z*columns+x].flagWall = true;
 }
 
-extern "C" EXPORT void initSoundSource(int x, int z)
+extern "C" EXPORT void allocSoundSourceMem(int soundSources)
 {
 	free(SoundSource);
-	SoundSource = (SoundSourceStruct*)malloc(sizeof(SoundSourceStruct));
+	SoundSource = (SoundSourceStruct*)malloc(soundSources*sizeof(SoundSourceStruct));
+	sources = soundSources;
+}
+
+extern "C" EXPORT void initSoundSource(int sourceCount, int x, int z)
+{
 	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
-	*SoundSource = soundSource; 
+	*(SoundSource+sourceCount) = soundSource; 
 }
 
 extern "C" EXPORT void runMainLoop(int tick, float map[])
 {
 	float* map_ptr = map;
-	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick, selectedGPUProp, map_ptr);
+	runMainLoopKernel(columns, rows, SoundMap, SoundSource, sources, tick, selectedGPUProp, map_ptr);
 }
 
 extern "C" EXPORT float sumInForPosition(int x, int z)
