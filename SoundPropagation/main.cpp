@@ -9,15 +9,28 @@
 #define CALL __stdcall
 #define EXPORT __declspec(dllexport)
 
-extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int tick);
-extern "C" void sumInKernel(int rows, int columns, float* map);
+extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int sourceCount, int tick, cudaDeviceProp deviceProperties, float* map);
+extern "C" void cleanCuda();
+extern "C" void cleanSourceCuda();
 
+cudaDeviceProp selectedGPUProp;
 SoundGridStruct* SoundMap;
 SoundSourceStruct* SoundSource;
-int rows; int columns;
+int rows; int columns; int sources;
+
+extern "C" EXPORT void cleanMaps()
+{
+	cleanCuda();
+}
+
+extern "C" EXPORT void cleanSoundSource()
+{
+	cleanSourceCuda();
+}
 
 extern "C" EXPORT void createSoundMap(int _rows, int _columns) 
 {
+	free(SoundMap);
 	rows = _rows;
 	columns = _columns;
 	size_t mapSize = (rows*columns*sizeof(SoundGridStruct));
@@ -32,22 +45,49 @@ extern "C" EXPORT void createSoundMap(int _rows, int _columns)
 	}
 }
 
+extern "C" EXPORT void selectBestGPU()
+{
+	int devCount;
+    cudaGetDeviceCount(&devCount);
+
+	int processorCount = 0;
+	int selectedGPU = 0;
+    for (int i = 0; i < devCount; ++i)
+    {
+        cudaDeviceProp devProp;
+        cudaGetDeviceProperties(&devProp, i);
+		if (processorCount < devProp.multiProcessorCount) {
+			selectedGPU = i;
+			processorCount = devProp.multiProcessorCount;
+			selectedGPUProp = devProp;
+		}
+    }
+	cudaSetDevice(selectedGPU);
+}
+
 extern "C" EXPORT void flagWall(int x, int z, float reflectionRate)
 {
 	SoundMap[z*columns+x].reflectionRate = reflectionRate;
 	SoundMap[z*columns+x].flagWall = true;
 }
 
-extern "C" EXPORT void initSoundSource(int x, int z)
+extern "C" EXPORT void allocSoundSourceMem(int soundSources)
 {
-	SoundSource = (SoundSourceStruct*)malloc(sizeof(SoundSourceStruct));
-	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
-	*SoundSource = soundSource; 
+	free(SoundSource);
+	SoundSource = (SoundSourceStruct*)malloc(soundSources*sizeof(SoundSourceStruct));
+	sources = soundSources;
 }
 
-extern "C" EXPORT void runMainLoop(int tick)
+extern "C" EXPORT void initSoundSource(int sourceCount, int x, int z)
 {
-	runMainLoopKernel(columns, rows, SoundMap, SoundSource, tick);
+	SoundSourceStruct soundSource = SoundSourceStruct(x, z);
+	*(SoundSource+sourceCount) = soundSource; 
+}
+
+extern "C" EXPORT void runMainLoop(int tick, float map[])
+{
+	float* map_ptr = map;
+	runMainLoopKernel(columns, rows, SoundMap, SoundSource, sources, tick, selectedGPUProp, map_ptr);
 }
 
 extern "C" EXPORT float sumInForPosition(int x, int z)
@@ -90,19 +130,6 @@ extern "C" EXPORT void CALL returnSoundGrid(int x, int z, SoundGridToReturn* gri
 	SoundGridStruct s = SoundMap[z*columns+x];
 	*grid = convertGrid(s);
 
-}
-
-
-
-extern "C" EXPORT void CALL returnSoundMap(float map[])
-{
-	int index = 0;
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			map[index] = sumInForPosition(j, i);
-			index++;
-		}
-	}
 }
 
 extern "C" EXPORT void CALL returnSoundSource(SoundStructToReturn* soundSourceToReturn)
