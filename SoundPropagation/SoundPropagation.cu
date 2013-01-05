@@ -2,6 +2,7 @@
 #include <math.h>
 
 #define NUMBER_OF_DIRECTIONS 4
+#define BLOCK_SIZE 256
 
 enum {North = 0, East = 1, South = 2, West = 3, None = -1} Direction;
 float* map_dev = NULL; 
@@ -67,8 +68,8 @@ __global__ void emitKernel(SoundSourceStruct* soundSource, SoundGridStruct* soun
 
 __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x;
-	int y = blockIdx.x;
+	int x = blockDim.x * blockIdx.x + threadIdx.x;
+	int y = blockDim.y * blockIdx.y + threadIdx.y;
 	if (x < columns && y < rows) {
 		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
 		soundGrid->updated = false;
@@ -93,8 +94,8 @@ __global__ void mergeKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x;
-	int y = blockIdx.x;
+	int x = blockDim.x * blockIdx.x + threadIdx.x;
+	int y = blockDim.y * blockIdx.y + threadIdx.y;
 	
 	if (x < columns && y < rows) {
 		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
@@ -159,8 +160,8 @@ __global__ void scatterKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 {
-	int x = threadIdx.x;
-	int y = blockIdx.x;
+	int x = blockDim.x * blockIdx.x + threadIdx.x;
+	int y = blockDim.y * blockIdx.y + threadIdx.y;
 	
 	if (x < columns && y < rows) {
 		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
@@ -191,32 +192,31 @@ __global__ void collectKernel(SoundGridStruct* soundMap, int rows, int columns)
 
 __global__ void computeValuesKernel(int rows, int columns, float* map, SoundGridStruct* soundMap)
 {
-	int x = threadIdx.x;
-	int y = blockIdx.x;
+	int x = blockDim.x * blockIdx.x + threadIdx.x;
+	int y = blockDim.y * blockIdx.y + threadIdx.y;
 
-	SoundGridStruct* soundGrid = &soundMap[y*columns+x];
-	float value = 0.0f;
-	for (int direction = 0; direction < 4; direction++)
-	{
-		for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
+	if (x < columns && y < rows) {
+		SoundGridStruct* soundGrid = &soundMap[y*columns+x];
+		float value = 0.0f;
+		for (int direction = 0; direction < 4; direction++)
 		{
-			SoundPacketStruct* frame = soundGrid->IN[direction];
-			value += frame[i].amplitude;
+			for (int i = 0; i < soundGrid->sizeOfIn[direction]; i++)
+			{
+				SoundPacketStruct* frame = soundGrid->IN[direction];
+				value += frame[i].amplitude;
+			}
 		}
+		map[y*columns+x] = value;
 	}
-	map[y*columns+x] = value;
 }
 
 extern "C" void runMainLoopKernel(int columns, int rows, SoundGridStruct* soundMap, SoundSourceStruct* soundSource, int sourceCount, int tick, cudaDeviceProp deviceProperties, float* map) 
 {
-	int warpSize = deviceProperties.warpSize;
-	int maxThreads = deviceProperties.maxThreadsPerBlock;
-	int numberOfCores = deviceProperties.multiProcessorCount;
-	int gridSize = columns*rows;
-
+	int blockLength = sqrt((double)BLOCK_SIZE); 
+	int gridLength = ceil((double)rows/(double)blockLength);
 	
-	dim3 blocks(rows, 1, 1);
-	dim3 threads(columns, 1, 1);
+	dim3 blocks(gridLength, gridLength, 1);
+	dim3 threads(blockLength, blockLength, 1);
 
 	if (soundMap_dev == NULL) {
 		cudaMalloc((void**)&soundMap_dev, (rows*columns)*sizeof(SoundGridStruct));
